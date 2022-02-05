@@ -1,0 +1,69 @@
+<div class="row justify-content-md-center ">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="car-body">
+                <!-- <form  #accountForm="ngForm" (ngSubmit)="addAccount(accountForm)"> -->
+                <form #accountForm="ngForm">
+                    <input type="hidden" name="id_account" [(ngModel)]="accountService.selectedAccount.id_account">
+                    <div class="form-group">
+                        <input type="text" name="user_name" class="form-control" placeholder="Enter username"
+                            [(ngModel)]="accountService.selectedAccount.user_name">
+
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <input type="text" name="password" class="form-control" placeholder="Enter password"
+                            [(ngModel)]="accountService.selectedAccount.password">
+                    </div>
+                    <div class="d-flex justify-content-md-center">
+                        <button class="btn btn-secondary mr-5" (click)="agregarCuenta(accountForm)">
+                            Save
+                        </button>
+                        <button class="btn btn-primary ml-5" (click)="resetForm(accountForm)">
+                            Clean
+                        </button>
+                    </div>
+
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-m-8">
+        <table *ngIf="accountService.accounts.length != 0" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let account of accountService.accounts">
+                    <td>{{account.user_name}}</td>
+                    <td>{{(account.password)}}</td>
+                    <td>
+                        <button class="btn btn-secondary btn-sm" (click)="editAccount(account)">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteAccount(account.id_account)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                        <!-- <button *ngIf="account.priority!=1" class="btn btn-danger btn-sm" (click)="increasePriority(account)">
+                            <span class="material-icons">
+                                arrow_circle_up
+                            </span>
+                        </button>
+                        <button *ngIf="account.priority!=this.accountService.accounts.length" class="btn btn-danger btn-sm" (click)="decreasePriority(account)">
+                            <span class="material-icons">
+                                arrow_circle_down
+                            </span>
+                        </button> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

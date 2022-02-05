@@ -1,0 +1,102 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:8.0
+    hostname: db
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: elpandaescuchaqueen
+      MYSQL_DATABASE: demoLinkedinScrapper3
+      MYSQL_USER: worker
+      MYSQL_PASSWORD: elpandaescuchaqueen
+    networks:
+      - default
+
+  selenium:
+    # image: selenium/standalone-chrome:3.141.0
+    image: selenium/standalone-chrome-debug:3.141.0
+    hostname: selenium
+    #networks:
+    # - web
+    #privileged: true
+    #shm_size: 2g
+
+    # Para debug con vnc
+    # password: "secret"
+    ports:
+      - "5900:5900"
+
+    networks:
+      - default
+
+  rpa-scrapper:
+    build: ./codigo_scrapper/
+    hostname: rpa-scrapper
+    #command: python test.py
+    command: python -u scrap_linkedin.py
+
+    volumes:
+     - ./codigo_scrapper:/usr/src/app
+    networks:
+      - default
+
+  rpa-backend:
+    build: ./backend/
+    hostname: rpa-backend
+  
+    # --------------- instalar dependencias ---------------
+    #user: "root"
+    #command: bash -c "npm install && chown node /home/node/app/node_modules && chmod 775 /home/node/app/node_modules"
+    # -----------------------------------------------------
+    
+    # --------------- iniciar app ---------------
+    user: "node"
+    command: "npm start"
+    # -------------------------------------------
+
+    working_dir: /home/node/app
+    # command: python test.py
+    environment:
+      - NODE_ENV=production
+      # - NODE_ENV=development
+    volumes:
+     - ./backend:/home/node/app
+    ports:
+      - "3002:3002"
+    networks:
+      - default
+
+  rpa-frontend:
+    build: ./frontend/
+    hostname: rpa-frontend
+
+    # --------------- instalar dependencias ---------------
+    # user: "root"
+    # command: bash -c "npm install && chown node /home/node/app/node_modules && chmod 775 /home/node/app/node_modules"
+    # -----------------------------------------------------
+
+    # --------------- iniciar app ---------------
+    user: "node"
+    command: "ng serve --host 0.0.0.0 --disableHostCheck"
+    # -------------------------------------------
+
+    working_dir: /home/node/app
+    # command: python test.py
+    # environment:
+    #   - NODE_ENV=production
+    #   - NODE_ENV=development
+    ports:
+      - "4200:4200"
+    volumes:
+     - ./frontend:/home/node/app
+    networks:
+      - default
+
+
+networks:
+  default:
+    driver: bridge

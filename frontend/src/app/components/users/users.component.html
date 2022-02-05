@@ -1,0 +1,28 @@
+
+<div *ngIf="userService.companyUsers.length!=0" >
+    <div class="col-md-12">
+        <h1>Users</h1>
+        <div>
+            <h3>Descargar todos los usuarios:</h3>
+            <button class="btn btn-primary mr-2" (click)="downloadUsers()">Download</button>
+        </div>
+        
+    </div>
+    <h3>Top 10 usuarios más influentes:</h3>
+    <table *ngIf="userService.usersTopTen.length!=0" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Name</th>
+                <th>Job</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of userService.usersTopTen">
+                <td>{{userService.usersTopTen.indexOf(user)+1}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.job}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

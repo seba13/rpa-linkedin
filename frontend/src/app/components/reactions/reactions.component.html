@@ -1,0 +1,46 @@
+<div *ngIf="reactionService.reactions.length != 0 || reactionService.companyReactions.length != 0"  >
+    <div class="col-md-12">
+        <h1>Reactions</h1>
+        <div>
+            <h3>Descargar todas las reacciones: </h3>
+            <button class="btn btn-primary mr-2" (click)="downloadReactionsCsv()">Download</button>
+        </div>
+        
+    </div>
+    
+    <table *ngIf="reactionService.reactions.length != 0" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Reaction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let reaction of reactionService.reactions">
+                <td>{{reaction.name}}</td>
+                <td>{{reaction.job}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table *ngIf="reactionService.companyReactions.length != 0" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Reaction</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let reaction of reactionService.companyReactions">
+                <td>
+                    {{reaction.name}}
+                    <br> 
+                    {{reaction.job}} 
+                </td>
+                <td>{{reaction.reaction}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+</div>

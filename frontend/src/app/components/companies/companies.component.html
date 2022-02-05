@@ -1,0 +1,166 @@
+
+
+<div class="row ml-5 border-right ">
+   
+    <div class="col-sm ">
+        <form #dateForm="ngForm" (ngSubmit)="sendDates(dateForm)" class="rounded ">
+            
+            <div class="form-group ">
+                <h4>Seleccionar rango de fechas:</h4>
+                <input matInput [matDatepicker]="pickerFrom" class="form-control" name="from" [(ngModel)]="postService.selectedDate.from">
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom></mat-datepicker>
+            </div>
+            <div class="form-group">
+                <input matInput [matDatepicker]="pickerTo"  class="form-control" name="to" [(ngModel)]="postService.selectedDate.to">
+                <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                <mat-datepicker #pickerTo></mat-datepicker>
+            </div>
+            <div class="d-flex justify-content-md-center ">
+                <button class="btn btn-primary mb-5">Seleccionar fecha</button>
+            </div>
+        </form>
+    </div>
+        
+
+
+    <br><br>
+  
+    <div class="col-sm">
+        <h1 class="d-flex justify-content-md-center">Bancos</h1>
+        
+        <div class="d-flex justify-content-md-center mb-5">
+            <button class="btn btn-primary" (click)="openXL(content)">Comparar Bancos</button>
+        </div>
+        <table class="table table-striped">
+            
+            <thead>
+                <tr>
+                    <th>Info</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let company of companyService.companies">
+                    <td>
+                        {{company.name_company}}<br><br>
+                        seguidores: <br> {{company.followers}}<br>
+                        extracción: <br>{{company.date}}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary mb-2" (click)="getPosts(company.id_company)">Posts</button>
+                        <button class="btn btn-primary mb-2" (click)="sendIdCompanyReaction(company.id_company)">Reacciones</button>
+                        <button class="btn btn-primary mb-2" (click)="sendIdCompanyComment(company.id_company)">Comentarios</button>
+                        <button class="btn btn-primary mb-2" (click)="sendIdCompanyUsers(company.id_company)">Usuarios</button>
+                        <button class="btn btn-secondary mb-2" (click)="clear()">Clear</button>
+                    </td>
+                </tr>                                                                                                                                                                                               
+            </tbody>
+        </table>
+    </div>
+    
+    
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title">Comparación</h2>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Bancos:</p>
+            </div>
+            <div class="col-md-6">
+                <p>Bancos Seleccionados:</p>
+            </div>
+        </div>
+       
+        <div class="row"> 
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let company of companyService.companies">
+                            <td>{{company.name_company}}<br>
+                            </td>
+                            <td>
+                                <button  *ngIf="companyService.selectedCompanies.indexOf(company) == -1" class="btn btn-primary" (click)="addCompareCompany(company)">Add Company</button>
+                            </td>
+                        </tr>                                                                                                                                                                                               
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let company of companyService.selectedCompanies">
+                            <td>{{company.name_company}}<br>
+                            </td>
+                            <td>
+                                
+                                <div class="example-button-container">
+                                    <button class="btn btn-dange" (click)="removeCompareCompany(company)">
+                                        <span class="material-icons">
+                                            delete
+                                            </span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>                                                                                                                                                                                               
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2 *ngIf="postService.comparePosts.length!=0" class="display-1">Gráfico comparativo de posts</h2>
+            <div id="chartdiv2" style="width: 100%; height: 500px"></div>
+        </div>
+        <div>
+            <h2 *ngIf="postService.comparePostsCommentsReactions.length!=0" class="display-1">Gráfico comparativo de comentarios, reacciones y posts</h2>
+            <div id="chartdiv3" style="width: 100%; height: 500px"></div>
+        </div>
+        <div>
+            <h2 *ngIf="postService.compareReactionsByTags.length!=0" class="display-1">Gráfico comparativo de reacciones por tags</h2>
+            <div id="chartdiv4" style="width: 100%; height: 500px"></div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            *ngIf="companyService.selectedCompanies.length>=2"
+            type="button" 
+            class="btn btn-success" 
+            (click)="addComparePostsCompany(companyService.selectedCompanies)"
+        >Comparar cantidad de Posts</button>
+        <button 
+            *ngIf="companyService.selectedCompanies.length>=2"
+            type="button" 
+            class="btn btn-success" 
+            (click)="addComparePostsCommentsReactions(companyService.selectedCompanies)"
+        >Comparar contenido</button>
+        <button 
+            *ngIf="companyService.selectedCompanies.length>=2"
+            type="button" 
+            class="btn btn-success" 
+            (click)="addCompareReactionsByTags(companyService.selectedCompanies)"
+        >Comparar reacciones por Tags</button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+        
+    </div>
+</ng-template>
+
+

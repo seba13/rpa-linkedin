@@ -1,0 +1,84 @@
+<!-- <nav class="navbar navbar-light bg-light" style="margin-top: 25px;">
+    <form class="container-fluid">
+      <div class="input-group">
+        <span class="input-group-text" id="basic-addon1">Company Username</span>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <button>Save</button>
+      </div>
+    </form>
+  </nav> -->
+
+<div class="row justify-content-md-center">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="car-body">
+        <!-- <form #extractionForm="ngForm" (ngSubmit)="addExtraction(extractionForm)"> -->
+        <form #extractionForm="ngForm">
+          <input type="hidden" name="id_extraction" [(ngModel)]="extractionService.selectedExtraction.id_extraction" />
+          <input type="hidden" name="creation_date" [(ngModel)]="extractionService.selectedExtraction.creation_date" />
+          <div class="form-group">
+            <input type="text" name="user_name" class="form-control" placeholder="Enter username"
+              [(ngModel)]="extractionService.selectedExtraction.user_name" />
+          </div>
+          <br />
+          <div class="form-check">
+            <input type="checkbox" value="" name="isAdmin" class="form-check-input"
+              [(ngModel)]="extractionService.selectedExtraction.isAdmin" />
+            <label class="form-check-label" for="flexCheckDefault">
+              Is Admin?
+            </label>
+          </div>
+          <br />
+          <div *ngIf="extractionService.selectedExtraction.isAdmin" class="form-group">
+            <input type="text" name="company_number" class="form-control" placeholder="Enter company number"
+              [(ngModel)]="extractionService.selectedExtraction.company_number" />
+          </div>
+          <div class="d-flex justify-content-md-center ">
+            <button class="btn btn-secondary mr-5" (click)="addExtraction(extractionForm)">Save</button>
+            <button class="btn btn-primary ml-5" (click)="resertForm(extractionForm)">Clean</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-m-8">
+    <table *ngIf="extractionService.extractions.length != 0" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Creation Date</th>
+          <th>Last Update</th>
+          <th>Company Number</th>
+          <th>Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let extraction of extractionService.extractions">
+          <td>{{ extraction.user_name }}</td>
+          <td>{{ extraction.creation_date }}</td>
+          <td>{{ extraction.last_update }}</td>
+          <td>{{ extraction.company_number }}</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" (click)="editExtraction(extraction)">
+              <i class="material-icons">edit</i>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteExtraction(extraction.id_extraction)">
+              <i class="material-icons">delete</i>
+            </button>
+            <!-- <button *ngIf="extraction.priority!=1" class="btn btn-danger btn-sm" (click)="increasePriority(extraction)">
+                            <span class="material-icons">
+                                arrow_circle_up
+                            </span>
+                        </button>
+                        <button *ngIf="extraction.priority!=this.extractionService.extractions.length" class="btn btn-danger btn-sm" (click)="decreasePriority(extraction)">
+                            <span class="material-icons">
+                                arrow_circle_down
+                            </span>
+                        </button> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

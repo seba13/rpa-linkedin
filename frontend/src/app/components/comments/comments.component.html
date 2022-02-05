@@ -1,0 +1,52 @@
+<div  *ngIf="commentService.companyComments.length!=0  || commentService.comments.length!=0" >
+    <div class="col-md-12">
+        <h1>Comments</h1>
+        <div>
+            <h3>Descargar todos los comentarios:</h3>
+            <button class="btn btn-primary" (click)="downloadCommentsCsv()">Download</button>
+        </div>
+        
+    </div>
+    
+    <table *ngIf="commentService.companyComments.length!=0" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Option</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let comment of commentService.companyComments">
+                <td>
+                    <h3>{{comment.name}}</h3>
+                    {{comment.job}}
+                </td>
+                <td>{{comment.comment}}</td>
+                <td>{{comment.published_date}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <table *ngIf="commentService.comments.length!=0" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Author</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let comment of commentService.comments">
+                <td>
+                    <h3>{{comment.name}}</h3>
+                    {{comment.job}}
+                </td>
+                <td>{{comment.comment}}</td>
+                <td>{{comment.published_date}}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>

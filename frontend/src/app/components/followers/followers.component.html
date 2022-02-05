@@ -1,0 +1,29 @@
+<div  *ngIf="followerService.followers.length != 0" >
+    <div class="col-md-12">
+        <h1>Followers</h1>
+    </div>
+    <div *ngIf="followerService.followers.length == 0">
+        <h3>No hay followers disponibles para esta compañía</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>job</th>
+                <th>Following from:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let follower of followerService.followers">
+                <td>
+                    <h5>{{follower.name}}</h5>
+                    
+                </td>
+                <td>{{follower.job}}</td>
+                <td>{{follower.date_follow}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,0 +1,165 @@
+
+
+//todas las compañias
+###
+GET http://localhost:3002/api/companies
+
+
+//compañias entre fechas
+###
+POST http://localhost:3002/api/companies/query_between_dates
+Content-Type: application/json
+
+{
+    "from" : "2020-12-13",
+    "to" : "2021-02-10"
+}
+
+
+//todos los comentarios
+###
+GET http://localhost:3002/api/comments/2
+
+//todos los comentarios de una compañia
+###
+GET http://localhost:3002/api/comments/company/1
+
+//comentarios de un post entre fechas
+###
+POST http://localhost:3002/api/comments/84/query_between_dates
+Content-Type: application/json
+
+{
+    "from" : "2020-02-01",
+    "to" : "2021-02-25"
+}
+
+//todos los posts
+###
+GET http://localhost:3002/api/posts
+
+//todos los posts de una compañia entre fechas
+###
+POST http://localhost:3002/api/posts/1/query_between_dates
+Content-Type: application/json
+
+{
+    "from" : "2021-01-20",
+    "to" : "2021-02-28"
+}
+
+//reacciones de post entre fechas
+###
+POST http://localhost:3002/api/posts/4/reactions_between_dates
+Content-Type: application/json
+
+{
+    "from" : "2020-01-20",
+    "to" : "2021-02-28"
+}
+
+//reacciones con tag de post entre fechas
+###
+POST http://localhost:3002/api/posts/1/reactions_between_dates
+Content-Type: application/json
+
+{
+    "from" : "2020-01-20",
+    "to" : "2021-02-20"
+}
+//comentarios de post entre fechas
+###
+POST http://localhost:3002/api/posts/4/comments_between_dates
+Content-Type: application/json
+
+{
+    "from" : "2020-01-20",
+    "to" : "2021-02-28"
+}
+
+//todos los tags
+###
+GET http://localhost:3002/api/posts/post/category/tags
+
+//actualizar tag en post
+###
+PUT http://localhost:3002/api/posts/post/category/update/221
+Content-Type: application/json
+
+{
+    "id_tag": 1,
+    "tag" : null
+}
+//todas las reacciones
+###
+GET http://localhost:3002/api/reactions
+
+//todas las reacciones de una compañia
+###
+GET http://localhost:3002/api/reactions/company/1
+
+//todas las reacciones de una compañia en csv
+###
+GET http://localhost:3002/api/reactions/company/1/export
+
+//todas las reacciones de un post
+###
+GET http://localhost:3002/api/reactions/15
+
+//todos los usuarios
+###
+GET http://localhost:3002/api/users
+
+//todos los usuarios de una compañía
+###
+GET http://localhost:3002/api/users/4
+
+
+
+//obtener un usuario
+###
+POST http://localhost:3002/api/users/info
+Content-Type: application/json
+
+{
+    "url_user" : "https://www.linkedin.com/in/pablo-ni%C3%B1o-de-zepeda-p%C3%A9rez-119a111a8?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAADCPUGUBYkmRpaRM4GlQy0akM81ykBlBTu0 "
+}
+
+//todas las extracciones
+###
+GET http://localhost:3002/api/extractions
+
+//agregar extracción
+###
+POST http://localhost:3002/api/extractions
+Content-Type: application/json
+
+{
+    "user_name" : "analitic",
+    "creation_date" : "2021/02/19",
+    "isAdmin" : false,
+    "company_number": "",
+    "last_update" : null
+}
+
+//editar extracción
+###
+PUT http://localhost:3002/api/extractions/1
+Content-Type: application/json
+
+{
+    "user_name" : "bcis",
+    "creation_date" : "2020/12/12",
+    "isAdmin" : true,
+    "company_number": "123123123",
+    "last_update" : null
+}
+
+//borrar extracción
+###
+DELETE  http://localhost:3002/api/extractions/108
+
+
+//OBtener todas las cuentas
+###
+GET http://localhost:3002/api/accounts
